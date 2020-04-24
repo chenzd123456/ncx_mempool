@@ -56,11 +56,7 @@ inline size_t getpagesize()
 #endif
 
 
-#if __cplusplus
-#define CALL_TYPE extern "C"
-#else
-#define CALL_TYPE
-#endif
+
 
 static ncx_slab_page_t* ncx_slab_alloc_pages(ncx_slab_pool_t* pool,
 	ncx_uint_t pages);
@@ -75,7 +71,7 @@ static ncx_uint_t  ncx_pagesize;
 static ncx_uint_t  ncx_pagesize_shift;
 static ncx_uint_t  ncx_real_pages;
 
-CALL_TYPE
+
 void
 ncx_slab_init(ncx_slab_pool_t* pool)
 {
@@ -138,7 +134,7 @@ ncx_slab_init(ncx_slab_pool_t* pool)
 }
 
 
-CALL_TYPE
+
 void*
 ncx_slab_alloc(ncx_slab_pool_t* pool, size_t size)
 {
@@ -154,7 +150,7 @@ ncx_slab_alloc(ncx_slab_pool_t* pool, size_t size)
 }
 
 
-CALL_TYPE
+
 void*
 ncx_slab_alloc_locked(ncx_slab_pool_t* pool, size_t size)
 {
@@ -403,7 +399,7 @@ done:
 }
 
 
-CALL_TYPE
+
 void
 ncx_slab_free(ncx_slab_pool_t* pool, void* p)
 {
@@ -415,7 +411,7 @@ ncx_slab_free(ncx_slab_pool_t* pool, void* p)
 }
 
 
-CALL_TYPE
+
 void
 ncx_slab_free_locked(ncx_slab_pool_t* pool, void* p)
 {
@@ -620,7 +616,7 @@ fail:
 }
 
 
-CALL_TYPE
+
 static ncx_slab_page_t*
 ncx_slab_alloc_pages(ncx_slab_pool_t* pool, ncx_uint_t pages)
 {
@@ -670,7 +666,7 @@ ncx_slab_alloc_pages(ncx_slab_pool_t* pool, ncx_uint_t pages)
 	return NULL;
 }
 
-CALL_TYPE
+
 static void
 ncx_slab_free_pages(ncx_slab_pool_t* pool, ncx_slab_page_t* page,
 	ncx_uint_t pages)
@@ -732,7 +728,7 @@ ncx_slab_free_pages(ncx_slab_pool_t* pool, ncx_slab_page_t* page,
 }
 
 
-CALL_TYPE
+
 void
 ncx_slab_dummy_init(ncx_slab_pool_t* pool)
 {
@@ -753,7 +749,7 @@ ncx_slab_dummy_init(ncx_slab_pool_t* pool)
 }
 
 
-CALL_TYPE
+
 void
 ncx_slab_stat(ncx_slab_pool_t* pool, ncx_slab_stat_t* stat)
 {
@@ -883,7 +879,7 @@ ncx_slab_stat(ncx_slab_pool_t* pool, ncx_slab_stat_t* stat)
 	info("max free pages : %zu\n", stat->max_free_pages);
 }
 
-CALL_TYPE
+
 static bool
 ncx_slab_empty(ncx_slab_pool_t* pool, ncx_slab_page_t* page)
 {
