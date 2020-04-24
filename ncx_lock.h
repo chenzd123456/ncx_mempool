@@ -7,7 +7,7 @@
 typedef struct {
 
 	ncx_uint_t spin;
-	
+
 } ncx_shmtx_t;
 
 #endif
