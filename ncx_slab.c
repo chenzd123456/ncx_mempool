@@ -1,5 +1,15 @@
 #include "ncx_slab.h"
+
+#if _WIN32 || _WIN64
+#include <windows.h>
+size_t getpagesize()
+{
+    return 4096;
+}
+
+#elif __linux || __APPLE__ || __unix || __FreeBSD__ || __NetBSD__
 #include <unistd.h>
+#endif
 
 #define NCX_SLAB_PAGE_MASK   3
 #define NCX_SLAB_PAGE        0
