@@ -9,6 +9,8 @@
 #define LV_ERROR 8
 #define LV_ALERT 16
 
+#define LOG_ENABLE 0
+#if LOG_ENABLE
 #define log_(level, format, ...) \
     do { \
         if ( level >= LOG_LEVEL ) {\
@@ -22,5 +24,13 @@
 #define info(format, ...)  log_(LV_INFO , format, ##__VA_ARGS__)
 #define error(format, ...) log_(LV_ERROR, format, ##__VA_ARGS__)
 #define alert(format, ...) log_(LV_ALERT, format, ##__VA_ARGS__)
+#else
+#define trace_(format, ...)
+#define debug_(format, ...)
+#define info_(format, ...)
+#define error_(format, ...)
+#define alert_(format, ...)
+#endif
+
 
 #endif

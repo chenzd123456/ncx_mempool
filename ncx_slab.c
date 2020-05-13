@@ -118,7 +118,7 @@ ncx_slab_init(ncx_slab_pool_t* pool)
 
 	pool->pages = (ncx_slab_page_t*)p;
 
-	pool->free.prev = 0;
+	pool->free.prev = p;
 	pool->free.next = (ncx_slab_page_t*)p;
 
 	pool->pages->slab = pages;
@@ -161,7 +161,7 @@ ncx_slab_alloc_locked(ncx_slab_pool_t* pool, size_t size)
 
 	if (size >= ncx_slab_max_size) {
 
-		debug("slab alloc: %zu", size);
+		debug_("slab alloc: %zu", size);
 
 		page = ncx_slab_alloc_pages(pool, (size >> ncx_pagesize_shift)
 			+ ((size % ncx_pagesize) ? 1 : 0));
@@ -393,7 +393,7 @@ ncx_slab_alloc_locked(ncx_slab_pool_t* pool, size_t size)
 
 done:
 
-	debug("slab alloc: %p", (void*)p);
+	debug_("slab alloc: %p", (void*)p);
 
 	return (void*)p;
 }
@@ -420,10 +420,10 @@ ncx_slab_free_locked(ncx_slab_pool_t* pool, void* p)
 	ncx_uint_t        n, type, slot, shift, map;
 	ncx_slab_page_t* slots, * page;
 
-	debug("slab free: %p", p);
+	debug_("slab free: %p", p);
 
 	if ((u_char*)p < pool->start || (u_char*)p > pool->end) {
-		error("ncx_slab_free(): outside of pool");
+		error_("ncx_slab_free(): outside of pool");
 		goto fail;
 	}
 
@@ -571,12 +571,12 @@ ncx_slab_free_locked(ncx_slab_pool_t* pool, void* p)
 		}
 
 		if (slab == NCX_SLAB_PAGE_FREE) {
-			alert("ncx_slab_free(): page is already free");
+			alert_("ncx_slab_free(): page is already free");
 			goto fail;
 		}
 
 		if (slab == NCX_SLAB_PAGE_BUSY) {
-			alert("ncx_slab_free(): pointer to wrong page");
+			alert_("ncx_slab_free(): pointer to wrong page");
 			goto fail;
 		}
 
@@ -602,13 +602,13 @@ done:
 
 wrong_chunk:
 
-	error("ncx_slab_free(): pointer to wrong chunk");
+	error_("ncx_slab_free(): pointer to wrong chunk");
 
 	goto fail;
 
 chunk_already_free:
 
-	error("ncx_slab_free(): chunk is already free");
+	error_("ncx_slab_free(): chunk is already free");
 
 fail:
 
@@ -661,7 +661,7 @@ ncx_slab_alloc_pages(ncx_slab_pool_t* pool, ncx_uint_t pages)
 		}
 	}
 
-	error("ncx_slab_alloc() failed: no memory");
+	error_("ncx_slab_alloc() failed: no memory");
 
 	return NULL;
 }
@@ -864,19 +864,19 @@ ncx_slab_stat(ncx_slab_pool_t* pool, ncx_slab_stat_t* stat)
 	stat->pool_size = pool->end - pool->start;
 	stat->used_pct = stat->used_size * 100 / stat->pool_size;
 
-	info("pool_size : %zu bytes", stat->pool_size);
-	info("used_size : %zu bytes", stat->used_size);
-	info("used_pct  : %zu%%\n", stat->used_pct);
+	info_("pool_size : %zu bytes", stat->pool_size);
+	info_("used_size : %zu bytes", stat->used_size);
+	info_("used_pct  : %zu%%\n", stat->used_pct);
 
-	info("total page count : %zu", stat->pages);
-	info("free page count  : %zu\n", stat->free_page);
+	info_("total page count : %zu", stat->pages);
+	info_("free page count  : %zu\n", stat->free_page);
 
-	info("small slab use page : %zu,\tbytes : %zu", stat->p_small, stat->b_small);
-	info("exact slab use page : %zu,\tbytes : %zu", stat->p_exact, stat->b_exact);
-	info("big   slab use page : %zu,\tbytes : %zu", stat->p_big, stat->b_big);
-	info("page slab use page  : %zu,\tbytes : %zu\n", stat->p_page, stat->b_page);
+	info_("small slab use page : %zu,\tbytes : %zu", stat->p_small, stat->b_small);
+	info_("exact slab use page : %zu,\tbytes : %zu", stat->p_exact, stat->b_exact);
+	info_("big   slab use page : %zu,\tbytes : %zu", stat->p_big, stat->b_big);
+	info_("page slab use page  : %zu,\tbytes : %zu\n", stat->p_page, stat->b_page);
 
-	info("max free pages : %zu\n", stat->max_free_pages);
+	info_("max free pages : %zu\n", stat->max_free_pages);
 }
 
 
